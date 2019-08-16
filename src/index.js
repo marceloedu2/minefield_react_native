@@ -1,5 +1,5 @@
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Platform,
   StyleSheet,
@@ -12,8 +12,8 @@ import params from './functions/params'
 import Field from './components/Field'
 import MineField from './components/MineField'
 import Header from './components/Header'
-import LevelSelection from './screens/LecelSelection'
-import { 
+import LevelSelection from './screens/LevelSelection'
+import {
   creatMinedBoard,
   cloneBoard,
   openField,
@@ -22,7 +22,7 @@ import {
   showMines,
   invertFlag,
   flagsUsed,
-} from './functions/functions' 
+} from './functions/functions'
 
 export default class App extends Component {
 
@@ -59,17 +59,17 @@ export default class App extends Component {
     if (won) {
       Alert.alert('Parabéns!!!', 'Você Venceu...');
     };
-    this.setState({board, lost, won});
+    this.setState({ board, lost, won });
   };
-  onSelectField = (row, column ) => {
+  onSelectField = (row, column) => {
     const board = cloneBoard(this.state.board);
-    invertFlag(board,row, column);
+    invertFlag(board, row, column);
     const won = wonGame(board);
 
     if (won) {
       Alert.alert('parabéns', 'você Venceu!!!');
     };
-    this.setState({board, won});
+    this.setState({ board, won });
   }
   onLevelSelected = level => {
     params.difficultLevel = level;
@@ -79,10 +79,22 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <LevelSelection isvisible={this.state.showLevelSelection} onLevelSelected={this.onLevelSelected} onCancel={() => this.setState({showLevelSelection: false})} />
-        <Header flagsLeft={this.minesAmount() - flagsUsed(this.state.board)}  onNewGame={() => this.setState(this.createState())} onFlagPress={() => this.setState({showLevelSelection: true})}/>
+        <LevelSelection
+          isVisible={this.state.showLevelSelection}
+          onLevelSelected={this.onLevelSelected}
+          onCancel={() => this.setState({ showLevelSelection: false })}
+        />
+        <Header
+          flagsLeft={this.minesAmount() - flagsUsed(this.state.board)}
+          onNewGame={() => this.setState(this.createState())}
+          onFlagPress={() => this.setState({ showLevelSelection: true })}
+        />
         <View style={styles.board}>
-          <MineField board={this.state.board} onOpenField={this.onOpenField} onSelectField={this.onSelectField}/>
+          <MineField
+            board={this.state.board}
+            onOpenField={this.onOpenField}
+            onSelectField={this.onSelectField}
+          />
         </View>
       </View>
     )
